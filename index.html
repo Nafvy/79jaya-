@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>79 Clan Official | Z'79</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+    	
+        /* =========================================
+           1. CORE VARIABLES & RESET
+           ========================================= */
+        :root {
+            --primary: #7248EF;
+            --secondary: #DD44DD;
+            --dark: #0f0c29;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #b3b3b3;
+            --danger: #ff4b5c;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000;
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Image Setup */
+        .bg-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://cdn.yupra.my.id/yp/6ghkrczc.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+            filter: brightness(0.4);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 12, 41, 0.8), rgba(48, 43, 99, 0.6));
+            z-index: -1;
+        }
+
+        /* Scrollbar Customization */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0c29; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient); 
+            border-radius: 10px;
+        }
+
+        /* =========================================
+           2. UTILITY CLASSES & ANIMATIONS
+           ========================================= */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(114, 72, 239, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .text-gradient {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .btn-gradient {
+            background: var(--gradient);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(114, 72, 239, 0.4);
+        }
+
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(221, 68, 221, 0.6);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* =========================================
+           3. LOADER
+           ========================================= */
+        #loader {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-top: 5px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* =========================================
+           4. HERO SECTION
+           ========================================= */
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px;
+            flex-direction: column;
+        }
+
+        .profile-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .logo-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid transparent;
+            background-image: linear-gradient(white, white), var(--gradient);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h1.clan-name {
+            font-size: 4rem;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(114, 72, 239, 0.5);
+        }
+
+        .founder-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .marquee-container {
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.5), transparent);
+            padding: 10px 0;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            margin-top: 20px;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 15s linear infinite;
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* =========================================
+           5. ABOUT SECTION
+           ========================================= */
+        .about-section {
+            padding: 100px 0;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .info-box h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* =========================================
+           6. ADMIN CARDS
+           ========================================= */
+        .admin-section {
+            padding: 50px 0;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .admin-card {
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-avatar {
+            width: 100px;
+            height: 100px;
+            background: #333;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            border: 3px solid var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .admin-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .admin-role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* =========================================
+           7. RULES SECTION
+           ========================================= */
+        .rules-section {
+            padding: 50px 0;
+        }
+
+        .rules-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            transition: 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .rule-item:hover {
+            background: rgba(255,255,255,0.08);
+            border-left: 3px solid var(--secondary);
+            transform: translateX(10px);
+        }
+
+        .rule-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        /* =========================================
+           8. BLACKLIST
+           ========================================= */
+        .blacklist-section {
+            padding: 50px 0;
+        }
+
+        .blacklist-container {
+            border: 1px solid var(--danger);
+            background: rgba(255, 75, 92, 0.05);
+        }
+
+        .blacklist-title {
+            color: var(--danger);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .bl-item {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            color: var(--danger);
+            display: flex;
+            justify-content: space-between;
+        }
+
+                /* =========================================
+           9. CHAT BOT (FLOATING LIVE SUPPORT)
+           ========================================= */
+        #chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            max-width: 90vw;
+            z-index: 999;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #chatbot.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .chat-interface {
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: rgba(15, 15, 15, 0.85); 
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            animation: chatSlide 0.4s ease forwards;
+        }
+
+        @keyframes chatSlide {
+            from { opacity: 0; transform: translateY(15px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .bot-msg {
+            background: rgba(255, 255, 255, 0.1);
+            color: #eee;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .user-msg {
+            background: var(--gradient);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 10px rgba(114, 72, 239, 0.3);
+        }
+
+        .chat-controls {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .chat-chip {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+            padding: 6px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: 0.3s;
+        }
+
+        .chat-trigger {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(114, 72, 239, 0.4);
+            z-index: 1000;
+            transition: 0.3s;
+        }
+
+        /* =========================================
+           10. MODAL (PENTING: UNTUK GAMBAR 2)
+           ========================================= */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #0f0c29;
+            padding: 40px 30px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 380px;
+            position: relative;
+            text-align: center;
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 40px rgba(114, 72, 239, 0.3);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        .close-modal:hover { opacity: 1; }
+
+        .modal-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            background: #333;
+            border: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .modal-details {
+            text-align: left;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+        }
+
+        .modal-details div {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .modal-details i { color: var(--secondary); width: 20px; }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #000;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid #222;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+            h1.clan-name { font-size: 2.5rem; }
+        }
+
+        .chat-trigger.active i { transform: rotate(360deg); } 
+        }
+        
+        
+        /* =========================================
+   SCROLL PROGRESS BAR
+   ========================================= */
+#scrollProgress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, #7248EF, #DD44DD);
+    z-index: 10003;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(221, 68, 221, 0.6);
+}
+    </style>
+</head>
+<body>
+	<!-- SCROLL PROGRESS BAR -->
+<div id="scrollProgress"></div>
+
+    <div class="bg-fixed"></div>
+    <div class="bg-overlay"></div>
+
+    <div id="loader">
+        <div class="loader-spinner"></div>
+        <h3 class="text-gradient"> LOADING...</h3>
+    </div>
+
+    <header class="container">
+        <div class="profile-wrapper">
+            <img src="https://cdn.yupra.my.id/yp/8qfud0xp.jpg" alt="79 Logo" class="logo-img">
+        </div>
+        <h1 class="clan-name text-gradient">79!</h1>
+        <div class="founder-badge">
+            <i class="fa-solid fa-crown" style="color: gold; margin-right:5px;"></i> Owned by Z'79
+        </div>
+
+        <div class="marquee-container glass-card" style="padding: 10px; border-radius: 50px;">
+            <div class="marquee-content">
+                Pitu Songo Jaya! &nbsp;&bull;&nbsp; 79 New Era! &nbsp;&bull;&nbsp; 79 Jaya! &nbsp;&bull;&nbsp;Since 14 Jan 2024 &nbsp;&bull;&nbsp;
+                Pitu Songo Jaya! &nbsp;&bull;&nbsp; 79 New Era! &nbsp;&bull;&nbsp; 79 Jaya! &nbsp;&bull;&nbsp;Since 14 Jan 2024 &nbsp;&bull;&nbsp;
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <a href="#about" class="btn-gradient"><i class="fa-solid fa-arrow-down"></i> Klik Ini</a>
+        </div>
+    </header>
+
+    <section id="about" class="about-section container">
+        <h2 class="section-title">About <span style="color:var(--secondary)">79</span></h2>
+        
+        <div class="about-grid">
+            <div class="info-box glass-card">
+                <h3><i class="fa-solid fa-book-journal-whills"></i> Asal Usul</h3>
+                <p>
+                    79 asal usulnya dari creator Jedag Jedug yaitu "J' 79". Awalnya 79 bukanlah clan atau unit, melainkan hanya username creator preset yang melegenda. Namun, semangat komunitas mengubahnya menjadi sesuatu yang lebih besar.
+                </p>
+            </div>
+            
+            <div class="info-box glass-card">
+                <h3><i class="fa-solid fa-lightbulb"></i> Fakta Unik</h3>
+                <p>
+                    79 hanyalah clan yang <b>tidak disengaja</b> dibuat oleh "Z' 79 dan 4lf1sz" dengan izin langsung oleh Ares atau J' 79. Saat itulah 79 resmi berdiri sejak awal tahun 2024 dan berkembang pesat hingga kini.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="admins" class="admin-section container">
+        <h2 class="section-title">Admin Structure</h2>
+        <p style="text-align:center; margin-bottom:30px; color:#aaa;">Tap on admin name for details</p>
+        <div class="admin-grid" id="adminGrid"></div>
+    </section>
+
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-avatar-large"><i class="fa-solid fa-user"></i></div>
+            <h2 id="modalName" class="text-gradient">Admin Name</h2>
+            <p id="modalRole" style="font-weight: 600; color: var(--secondary);">Role</p>
+            
+            <div class="modal-details">
+                <div><i class="fa-solid fa-location-dot"></i> <span id="modalCity">City</span></div>
+                <div><i class="fa-solid fa-calendar-check"></i> <span id="modalJoin">Join Date</span></div>
+            </div>
+
+            <a id="modalTiktok" href="#" target="_blank" class="btn-gradient" style="width: 100%;"><i class="fa-brands fa-tiktok"></i> Visit TikTok</a>
+        </div>
+    </div>
+
+    <section id="rules" class="rules-section container">
+        <h2 class="section-title">Rules</h2>
+        <div class="glass-card">
+            <ul class="rules-list" id="rulesList"></ul>
+        </div>
+    </section>
+
+    <section class="blacklist-section container">
+        <div class="glass-card blacklist-container">
+            <h2 class="blacklist-title"><i class="fa-solid fa-triangle-exclamation"></i> BLACKLIST MEMBER</h2>
+            <div class="bl-item">
+                <span>Unknown User</span>
+                <span>+62 xxx-xxx-5049</span>
+            </div>
+            <div class="bl-item">
+                <span>Unknown User</span>
+                <span>+62 xxx-xxx-5287</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="chat-trigger" onclick="toggleChat()">
+        <i class="fa-solid fa-comment-dots"></i>
+    </div>
+
+    <section id="chatbot">
+        <div class="chat-interface">
+            <div class="chat-header">
+                <h4><i class="fa-solid fa-headset" style="color: var(--secondary);"></i> Live Support</h4>
+                <i class="fa-solid fa-xmark" style="cursor:pointer; opacity:0.5;" onclick="toggleChat()"></i>
+            </div>
+            <div class="chat-window" id="chatWindow">
+                <div class="message bot-msg">
+                    Halo! Ada yang bisa kami bantu? Silakan pilih menu di bawah.
+                </div>
+            </div>
+            <div class="chat-controls" id="chatControls"></div>
+        </div>
+    </section>
+
+    <footer>
+       Copyright &copy; 79 Official. All Right Reserved
+    </footer>
+
+    <script>
+        // 1. LOADER LOGIC
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
+            }, 1500);
+        });
+
+        // 2. DATA SOURCE
+        const admins = [
+            { name: "Z' 79", role: "Owner / Founder", city: "Padang", tiktok: "https://tiktok.com/@ziddbro_", join: "14 Jan 2024" },
+            { name: "Kaizen RMX", role: "Admin", city: "Bengkayang", tiktok: "https://www.tiktok.com/@nnda.hyvc", join: "14 Jan 2024" },
+            { name: "Alfisz79", role: "Admin", city: "Kalimantan Barat", tiktok: "https://tiktok.com/@alfisz79", join: "14 Jan 2024" },
+            { name: "Nafvy", role: "Web Developer", city: "Semarang", tiktok: "https://www.tiktok.com/@nafvy.asik.amat", join: "3 January 2026" },
+            { name: "None", role: "None", city: "Nons", tiktok: "https://tiktok.com/@none", join: "None" }
+        ];
+
+        const rules = [
+            { text: "Dilarang keras ngirim video kekerasan", icon: "fa-ban" },
+            { text: "Tidak boleh kirim Vidio 18+ (KICK)", icon: "fa-user-slash" },
+            { text: "Tidak rasis", icon: "fa-handshake-simple" },
+            { text: "Solid tapi jangan terlalu solid (solid santuy)", icon: "fa-users" },
+            { text: "Bebas TOXIC tapi tidak untuk mengejek teman", icon: "fa-face-grin-tongue-wink" },
+            { text: "Tidak Mandang fisik", icon: "fa-eye-slash" },
+            { text: "Jangan gay anjing!", icon: "fa-mars-double" },
+            { text: "Leader selalu benar", icon: "fa-check-double" },
+            { text: "Toleransi dalam beda agama", icon: "fa-place-of-worship" },
+            { text: "Dilarang keras mengirim stiker yg berbau porno", icon: "fa-note-sticky" },
+            { text: "Jangan spam stiker dan sound", icon: "fa-volume-xmark" },
+            { text: "Kedapatan spam like video teman (KICK)", icon: "fa-thumbs-down" },
+            { text: "Sopan dikit klau baru masuk", icon: "fa-user-graduate" },
+            { text: "Taati peraturan yang dibuat admin", icon: "fa-scale-balanced" },
+            { text: "Saling support dengan sesama gc", icon: "fa-hand-holding-heart" },
+            { text: "Kalau mau out ijin dulu blok", icon: "fa-door-open" },
+            { text: "Pengalaman kerja minimal 20-30 tahun", icon: "fa-briefcase" },
+            { text: "Dilarang tag grup selain berhubungan dengan 79", icon: "fa-tags" }
+        ];
+
+        const chatResponses = {
+            "join": "Melalui Seleksi Member ( Opmem ), Selengkapnya bisa kamu pantau akun official kami.",
+            "owner": "Owner saat ini adalah Z'79. Beliau mendirikan clan ini bersama 4lf1sz.",
+            "pengembang": "Pengembang Website 79 Official Adalah Nafvy.",
+            "hastag": "Hastag Dedic kami adalah : #79dihati, #79, dan #SeventyNine79.",
+        };
+
+        const chatKeywords = [
+            { label: "Cara Join?", key: "join" },
+            { label: "Siapa Owner?", key: "owner" },
+            { label: "Siapa Pembuat Website?", key: "pengembang" },
+            { label: "Hastag Dedic?", key: "hastag" }
+        ];
+
+        // 3. RENDER FUNCTIONS
+        const adminGrid = document.getElementById('adminGrid');
+        admins.forEach((admin, index) => {
+            const card = document.createElement('div');
+            card.className = 'admin-card glass-card';
+            card.innerHTML = `
+                <div class="admin-avatar"><i class="fa-solid fa-user"></i></div>
+                <div class="admin-name">${admin.name}</div>
+                <div class="admin-role">${admin.role}</div>
+            `;
+            card.addEventListener('click', () => openModal(index));
+            adminGrid.appendChild(card);
+        });
+
+        const rulesList = document.getElementById('rulesList');
+        rules.forEach((rule, index) => {
+            const li = document.createElement('li');
+            li.className = 'rule-item';
+            li.innerHTML = `<div class="rule-icon"><i class="fa-solid ${rule.icon}"></i></div><span><b>${index + 1}.</b> ${rule.text}</span>`;
+            rulesList.appendChild(li);
+        });
+
+        const chatControls = document.getElementById('chatControls');
+        chatKeywords.forEach(item => {
+            const btn = document.createElement('button');
+            btn.className = 'chat-chip';
+            btn.innerText = item.label;
+            btn.onclick = () => handleChat(item.label, item.key);
+            chatControls.appendChild(btn);
+        });
+
+        // 4. INTERACTION FUNCTIONS
+        const modal = document.getElementById('adminModal');
+
+        function openModal(index) {
+            const data = admins[index];
+            document.getElementById('modalName').innerText = data.name;
+            document.getElementById('modalRole').innerText = data.role;
+            document.getElementById('modalCity').innerText = data.city;
+            document.getElementById('modalJoin').innerText = data.join;
+            document.getElementById('modalTiktok').href = data.tiktok;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() { modal.style.display = 'none'; }
+        window.onclick = (e) => { if (e.target == modal) closeModal(); }
+
+        function toggleChat() {
+            const bot = document.getElementById('chatbot');
+            bot.classList.toggle('active');
+        }
+
+        function handleChat(userText, key) {
+            const chatWindow = document.getElementById('chatWindow');
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user-msg';
+            userDiv.innerText = userText;
+            chatWindow.appendChild(userDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            setTimeout(() => {
+                const botDiv = document.createElement('div');
+                botDiv.className = 'message bot-msg';
+                botDiv.innerText = chatResponses[key] || "Maaf, saya tidak mengerti.";
+                chatWindow.appendChild(botDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, 800);
+        }
+    </script>
+    <audio id="welcomeSound" preload="auto">
+    <source src="https://cdn.yupra.my.id/yp/lxypmc9z.mp3" type="audio/mpeg">
+</audio>
+<script>
+document.addEventListener('click', function playWelcomeSound() {
+    const sound = document.getElementById('welcomeSound');
+    sound.volume = 1.0;
+    sound.play().catch(() => {});
+    document.removeEventListener('click', playWelcomeSound);
+}, { once: true });
+
+<script>
+// ===== SCROLL PROGRESS BAR (NO BUG) =====
+window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
+    document.getElementById('scrollProgress').style.width = progress + '%';
+});
+</script>
+</body>
+</html>
+
